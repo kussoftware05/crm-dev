@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use admin\models\Product;
 
 /* @var $this yii\web\View */
 /* @var $searchModel admin\models\ProductSearch */
@@ -27,14 +28,26 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
+            [
+                'attribute' => 'image_id',
+                'format' => 'html',    
+                'value' => function ($data) {
+                    return Html::img(Product::getProductImageWithPath($data->image_id),
+                        [
+                            'width' => '70px',
+                            'height' => '70px'
+                        ]
+                    );
+                },
+            ],
             'name',
             // 'short_desp:ntext',
             // 'long_desp:ntext',
-            'price',
-            'sell_price',
+            'productPriceWithCurrency',
+            'productSellPriceWithCurrency',
             //'image_id',
-            'quantity_in_stock',
-            'product_cat_id',
+            // 'quantity_in_stock',
+            'catName',
 
             [
                 'class' => 'yii\grid\ActionColumn',

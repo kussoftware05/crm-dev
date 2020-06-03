@@ -47,11 +47,27 @@ class ProductCategory extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return array
+     */
     public static function getAllCategoryForDropdown()
     {
         $cats = self::find()
         ->asArray()
         ->all();
         return ArrayHelper::map($cats,'id','name');
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public static function getCategoryNameById($id)
+    {
+        $cat = self::findOne($id);
+        if($cat)
+            return $cat->name;
+        else 
+            return '';
     }
 }

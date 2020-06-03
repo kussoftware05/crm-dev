@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use admin\models\Image;
 use yii\helpers\ArrayHelper;
 use admin\models\interfaces\ImageInterface;
+use common\models\helper\Util;
 
 /**
  * This is the model class for table "product".
@@ -72,6 +73,10 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
             'image_id' => 'Image ID',
             'quantity_in_stock' => 'Quantity In Stock',
             'product_cat_id' => 'Category',
+            
+            'productPriceWithCurrency' => 'Price',
+            'productSellPriceWithCurrency' => 'Sell Price',
+            'catName' => 'Category'
         ];
     }
 
@@ -240,5 +245,32 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
             return $product->sell_price;
         else
             return $product->price;
+    }
+
+    /**
+     * format price with local currency
+     * @return string
+     */
+    public function getProductPriceWithCurrency()
+    {
+        return Util::getPriceWithCurrency($this->price);
+    }
+
+    /**
+     * format sell price with local currency
+     * @return string
+     */
+    public function getProductSellPriceWithCurrency()
+    {
+        return Util::getPriceWithCurrency($this->sell_price);
+    }
+
+    /**
+     * return product category name by id
+     * @return string
+     */
+    public function getCatName()
+    {
+        return ProductCategory::getCategoryNameById($this->product_cat_id);
     }
 }
