@@ -205,6 +205,12 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
         return Url::to(['/web/uploads/'. strtolower(self::TYPE) . '/' . $image_name]);
     }
 
+    public static function getProductImageWithPathForFrontend($id) 
+    {
+        $image_name = self::getproductImage($id);
+        return Url::to(['admin/web/uploads/'. strtolower(self::TYPE) . '/' . $image_name]);
+    }
+
     /**
      * product upload image path
      * 
@@ -272,5 +278,30 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
     public function getCatName()
     {
         return ProductCategory::getCategoryNameById($this->product_cat_id);
+    }
+
+    /**
+     * get all product data
+     * @return array
+     */
+    public static function getAllProductData()
+    {
+        $products = self::find()->asArray()->all();
+        $prdouct_data = [];
+
+        foreach($products as $data)
+        {
+            $prdouct_data [] = array(
+                'id' => $data['id'],
+                'name' => $data['name'],
+                'price' => Util::getPriceWithCurrency($data['price']),
+                'sell_price' => Util::getPriceWithCurrency($data['sell_price']),
+                'long_desp' => $data['long_desp'],
+                'short_desp' => $data['short_desp'],
+                'category' => ProductCategory::getCategoryNameById($data['product_cat_id']),
+                'image' => self::getProductImageWithPathForFrontend($data['image_id']),
+            );
+        }
+        return $prdouct_data;
     }
 }

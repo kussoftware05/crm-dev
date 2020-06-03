@@ -26,12 +26,17 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <h3><?= Html::encode($this->title) ?></h3>
-    <img src="<?= $product_img ?>" width="250" height="200">
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             // 'id',
+            [
+                'label' => 'Product Image',
+                'attribute'=> 'image',
+                'value'=> $product_img,
+                'format' => ['image',['width'=>'100','height'=>'100']],
+            ],
             'name',
             'short_desp:ntext',
             'long_desp:ntext',

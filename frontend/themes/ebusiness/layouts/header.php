@@ -21,7 +21,7 @@
 									</button>
                 <!-- Brand -->
                 <a class="navbar-brand page-scroll sticky-logo" href="index.html">
-                  <h1><span>e</span>Business</h1>
+                  <h1><span>C</span>RM</h1>
                   <!-- Uncomment below if you prefer to use an image logo -->
                   <!-- <img src="img/logo.png" alt="" title=""> -->
 								</a>
@@ -50,6 +50,7 @@
               <?php 
                 $menuItems = [
                     ['label' => 'Home', 'url' => ['/site/index']],
+                    ['label' => 'Shop', 'url' => ['/shop/index']],
                     ['label' => 'About', 'url' => ['/site/about']],
                     ['label' => 'Contact', 'url' => ['/site/contact']],
                 ];
