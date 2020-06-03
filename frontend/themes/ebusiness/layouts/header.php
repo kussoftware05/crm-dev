@@ -1,5 +1,6 @@
 <?php 
     use yii\widgets\Menu;
+    use yii\helpers\Html;
 ?>
 <header>
     <!-- header-area start -->
@@ -27,52 +28,43 @@
               </div>
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1" id="navbar-example">
+
+              
+              <?php if(!Yii::$app->user->isGuest) : ?>
+        
+                  <ul class="nav navbar-nav navbar-right">
+                    <li style="margin-top: 20px;">
+                        <?php 
+                        echo  Html::beginForm(['/site/logout'], 'post') 
+                        . Html::submitButton(
+                            'Logout (' . Yii::$app->user->identity->username . ')',
+                            ['class' => 'btn btn-link logout']
+                        )
+                        . Html::endForm();
+                        ?>
+                    </li>
+                  </ul>
+                  
+              <?php  endif  ?>
+
               <?php 
+                $menuItems = [
+                    ['label' => 'Home', 'url' => ['/site/index']],
+                    ['label' => 'About', 'url' => ['/site/about']],
+                    ['label' => 'Contact', 'url' => ['/site/contact']],
+                ];
+
+                  if (Yii::$app->user->isGuest) {
+                    $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+                  }
                   echo Menu::widget([
-                      'items' => [
-                          ['label' => 'Home', 'url' => ['site/index']],
-                          ['label' => 'About Us', 'url' => ['site/about']],
-                          ['label' => 'Contact', 'url' => ['site/contact']],
-                          ['label' => 'Blog', 'url' => ['site/contact']],
-                          ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                      ],
+                      'items' => $menuItems,
                       'options' => [
                         'class' => 'nav navbar-nav navbar-right',
                         'id'=>'navbar-id',
                     ],
-                  ]);
+                  ]); 
               ?>
-                  <!-- <ul class="nav navbar-nav navbar-right">
-                  <li class="active">
-                    <a class="page-scroll" href="#home">Home</a>
-                  </li>
-                  <li>
-                    <a class="page-scroll" href="#about">About</a>
-                  </li>
-                  <li>
-                    <a class="page-scroll" href="#services">Services</a>
-                  </li>
-                  <li>
-                    <a class="page-scroll" href="#team">Team</a>
-                  </li>
-                  <li>
-                    <a class="page-scroll" href="#portfolio">Portfolio</a>
-                  </li>
-
-                  <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Drop Down<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href=# >Drop Down 1</a></li>
-                      <li><a href=# >Drop Down 2</a></li>
-                    </ul> 
-                  </li>
-
-                  <li>
-                    <a class="page-scroll" href="#blog">Blog</a>
-                  </li>
-                  <li>
-                    <a class="page-scroll" href="#contact">Contact</a>
-                  </li>
-                </ul> -->
               </div>
               <!-- navbar-collapse -->
             </nav>

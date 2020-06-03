@@ -1,20 +1,24 @@
 <?php
+
 namespace common\models;
 
 use Yii;
 use yii\base\Model;
 
 /**
- * Login form
+ * every class which will be use to log in an user
+ * must extend form this abstract class since this
+ * base class provide necessary function to log in
+ * an user
+ * 
  */
-class LoginForm extends Model
+abstract class AbstractLoginForm extends Model
 {
     public $username;
     public $password;
     public $rememberMe = true;
 
-    private $_user;
-
+    protected $_user;
 
     /**
      * {@inheritdoc}
@@ -49,7 +53,7 @@ class LoginForm extends Model
     }
 
     /**
-     * Logs in a user using the provided username and password.
+     * Logs in a admin user using the provided username and password.
      *
      * @return bool whether the user is logged in successfully
      */
@@ -67,12 +71,6 @@ class LoginForm extends Model
      *
      * @return User|null
      */
-    protected function getUser()
-    {
-        if ($this->_user === null) {
-            $this->_user = User::findByUserNameAndType($this->username);
-        }
-
-        return $this->_user;
-    }
+    abstract protected function getUser();
+   
 }

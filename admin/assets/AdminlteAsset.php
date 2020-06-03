@@ -9,7 +9,7 @@ use yii\web\AssetBundle;
  */
 class AdminlteAsset extends AssetBundle
 {
-    public $sourcePath = __DIR__ . '/../web/adminlte'; 
+    public $sourcePath = __DIR__ . '/../web/adminlte';
 
     public $css = [
         'plugins/fontawesome-free/css/all.min.css',
