@@ -9,7 +9,9 @@ use yii\web\AssetBundle;
  */
 class EbusinessAsset extends AssetBundle
 {
-    public $sourcePath = '@webroot/ebusiness';
+    // public $sourcePath = '@webroot/ebusiness';
+
+    public $sourcePath = __DIR__ . '/../web/ebusiness';
 
     public $css = [
         "lib/bootstrap/css/bootstrap.min.css",
