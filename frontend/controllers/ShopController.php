@@ -37,10 +37,12 @@ class ShopController extends Controller
             return $this->render('error');
         
         return $this->render('product-detail',[
-            'product' => Product::getProductById($id)
+            'product' => Product::getProductById($id),
+            'more_products' => Product::getRelatedProductByCategory($id,
+                                Product::getProductCategoryId($id)
+                                )
         ]);
-        
-        
+
     }
 
 }

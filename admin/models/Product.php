@@ -3,6 +3,7 @@
 namespace admin\models;
 
 use Yii;
+use yii\db\Query;
 use yii\helpers\Url;
 use admin\models\Image;
 use yii\helpers\ArrayHelper;
@@ -319,8 +320,8 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
 
         if(is_null($product))
             return [];
-        
-        return array(
+    
+        $product_data = array(
             'id' => $product->id,
             'name' => $product->name,
             'price' => Util::getPriceWithCurrency($product->price),
@@ -330,5 +331,61 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
             'category' => ProductCategory::getCategoryNameById($product->product_cat_id),
             'image' => self::getProductImageWithPathForFrontend($product->image_id),
         );
+
+        if((int) $product->sell_price > 0)
+            $product_data['save_price'] = \round(Util::calculatePersentage((int)$product->price,(int)$product->sell_price));
+        
+        return $product_data;
+    }
+
+    /**
+     * get related product by same categroy id
+     * 
+     * SELECT * FROM product
+     * WHERE product_cat_id = 1 AND id != current_product_id
+     * LIMIT 4;
+     * 
+     * @param int $cat_id
+     */
+    public static function getRelatedProductByCategory($product_id, $cat_id,$how_many = 3)
+    {
+        $query = new Query;
+        $query->select('*')
+        ->from('product')
+        ->where(['product_cat_id' => $cat_id])
+        ->andWhere(['!=', 'id', $product_id])
+        ->limit($how_many);
+
+        $rows = $query->all();
+
+        $prdouct_data = [];
+        foreach($rows as $data)
+        {
+            $prdouct_data [] = array(
+                'id' => $data['id'],
+                'name' => $data['name'],
+                'price' => Util::getPriceWithCurrency($data['price']),
+                'sell_price' => Util::getPriceWithCurrency($data['sell_price']),
+                'long_desp' => $data['long_desp'],
+                'short_desp' => $data['short_desp'],
+                'category' => ProductCategory::getCategoryNameById($data['product_cat_id']),
+                'image' => self::getProductImageWithPathForFrontend($data['image_id']),
+            );
+        }
+        return $prdouct_data;
+    }
+
+    /**
+     * @param int $product_id
+     * @return int
+     */
+    public static function getProductCategoryId($product_id)
+    {
+        $product = self::findOne($product_id);
+        
+        if($product)
+            return $product->product_cat_id;
+        else
+            return 0;
     }
 }
