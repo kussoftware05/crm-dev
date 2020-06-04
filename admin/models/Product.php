@@ -282,6 +282,7 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
 
     /**
      * get all product data
+     * 
      * @return array
      */
     public static function getAllProductData()
@@ -303,5 +304,31 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
             );
         }
         return $prdouct_data;
+    }
+
+    /**
+     * get product by id
+     * 
+     * @param int $id
+     * 
+     * @return array
+     */
+    public static function getProductById($id)
+    {
+        $product = self::findOne($id);
+
+        if(is_null($product))
+            return [];
+        
+        return array(
+            'id' => $product->id,
+            'name' => $product->name,
+            'price' => Util::getPriceWithCurrency($product->price),
+            'sell_price' => Util::getPriceWithCurrency($product->sell_price),
+            'long_desp' => $product->long_desp,
+            'short_desp' => $product->short_desp,
+            'category' => ProductCategory::getCategoryNameById($product->product_cat_id),
+            'image' => self::getProductImageWithPathForFrontend($product->image_id),
+        );
     }
 }

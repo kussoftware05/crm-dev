@@ -14,4 +14,33 @@ class ShopController extends Controller
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
+    }
+
+    /**
+     * details view of an product
+     * 
+     * @param int $id
+     */
+    public function actionProduct($id)
+    {
+        if(filter_var($id,FILTER_VALIDATE_INT) === false)
+            return $this->render('error');
+        
+        return $this->render('product-detail',[
+            'product' => Product::getProductById($id)
+        ]);
+        
+        
+    }
+
 }

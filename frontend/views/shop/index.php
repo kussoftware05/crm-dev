@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 ?>
 
 <div class="container">
@@ -9,8 +10,10 @@ use yii\helpers\Html;
     <div class="row mt-3">
     <?php foreach($product_data as $product) : ?>
         <div class="col-sm-3" style="margin-top:50px;">
-            <img src="<?php echo $product['image'] ?>" alt="Girl in a jacket" width="100" height="100">
-            <p><?= $product['name'] ?></p>
+            <img src="<?php echo $product['image'] ?>" alt="<?= $product['name'] ?>" width="100" height="100">
+            <a href=<?php echo Url::to(['shop/product', 'id' => $product['id']]) ?>>
+                <p><?= $product['name'] ?></p>
+            </a>
             <p style="color: #B12704"><?= $product['price'] ?></p>
         </div>
     <?php endforeach ?>
