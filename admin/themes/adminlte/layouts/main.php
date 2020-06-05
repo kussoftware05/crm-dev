@@ -36,7 +36,7 @@ AdminlteAsset::register($this);
         <!-- Main Sidebar end Container -->
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin-top: 76px; margin-left: 268px;margin-right: 6px;">
+        <div class="content-wrapper" style="margin-top: 76px; margin-left: 268px;margin-right: 6px; padding: 6px;">
 
             <?php echo $content; ?>
 

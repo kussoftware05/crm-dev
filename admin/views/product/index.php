@@ -18,6 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <p class="pull-right">
+        <?= Html::a('Export as json', ['export'], ['class' => 'btn btn-outline-danger btn-sm']) ?>
+    </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -27,9 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
             [
-                'label' => 'Image',
+                'label' => 'Product Image',
                 'attribute' => 'image_id',
                 'format' => 'html',    
                 'value' => function ($data) {

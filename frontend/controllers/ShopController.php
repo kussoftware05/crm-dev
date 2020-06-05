@@ -42,7 +42,6 @@ class ShopController extends Controller
                                 Product::getProductCategoryId($id)
                                 )
         ]);
-
     }
 
 }

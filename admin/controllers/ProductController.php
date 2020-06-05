@@ -141,4 +141,17 @@ class ProductController extends Controller
         print_r(ProductCategory::getCategoryNameById(1));
         echo '</pre>';
     }
+
+    /**
+     * export data as csv format
+     */
+    public function actionExport()
+    {
+        $product_data = Product::getAllProductData();
+        $exporter = new \admin\helpers\Export(new \admin\helpers\ExportAsJson);
+        header('Content-disposition: attachment; filename=products.json');
+        header('Content-type: application/json');
+        echo $exporter->export($product_data);
+        die();
+    }
 }
