@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use Yii;
 use \yii\web\Controller;
 use admin\models\Product;
 
@@ -9,8 +10,24 @@ class ShopController extends Controller
 {
     public function actionIndex()
     {
+        $request = Yii::$app->request;
+        $order_by = $request->get('orderby');
+        $product_data = [];
+        switch ($order_by) {
+            case 'price':
+                $product_data = Product::productSortByPriceLowToHigh();
+                break;
+
+            case 'price-desc':
+                $product_data = Product::productSortByPriceHighToLow();
+                break;
+            
+            default:
+                $product_data = Product::getAllProductData();
+                break;
+        }
         return $this->render('index',[
-            'product_data' => Product::getAllProductData()
+            'product_data' => $product_data
         ]);
     }
 

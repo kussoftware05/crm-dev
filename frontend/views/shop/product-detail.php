@@ -41,7 +41,7 @@
             </div>
 
             <div>
-                <input type="number" name="quantity" value="1" style="width:9%">
+                <input type="number" name="quantity" value="1" min="1" max="50" style="width:9%">
                 <button type="submit" class="btn btn-danger">Add to cart</button>
                 <span>Category : <?= $product['category'] ?></span>
             </div>

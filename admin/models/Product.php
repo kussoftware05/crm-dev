@@ -293,16 +293,7 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
 
         foreach($products as $data)
         {
-            $prdouct_data [] = array(
-                'id' => $data['id'],
-                'name' => $data['name'],
-                'price' => Util::getPriceWithCurrency($data['price']),
-                'sell_price' => Util::getPriceWithCurrency($data['sell_price']),
-                'long_desp' => $data['long_desp'],
-                'short_desp' => $data['short_desp'],
-                'category' => ProductCategory::getCategoryNameById($data['product_cat_id']),
-                'image' => self::getProductImageWithPathForFrontend($data['image_id']),
-            );
+            $prdouct_data [] = self::getProductCommonData($data);
         }
         return $prdouct_data;
     }
@@ -361,16 +352,7 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
         $prdouct_data = [];
         foreach($rows as $data)
         {
-            $prdouct_data [] = array(
-                'id' => $data['id'],
-                'name' => $data['name'],
-                'price' => Util::getPriceWithCurrency($data['price']),
-                'sell_price' => Util::getPriceWithCurrency($data['sell_price']),
-                'long_desp' => $data['long_desp'],
-                'short_desp' => $data['short_desp'],
-                'category' => ProductCategory::getCategoryNameById($data['product_cat_id']),
-                'image' => self::getProductImageWithPathForFrontend($data['image_id']),
-            );
+            $prdouct_data [] = self::getProductCommonData($data);
         }
         return $prdouct_data;
     }
@@ -388,4 +370,70 @@ class Product extends \yii\db\ActiveRecord implements ImageInterface
         else
             return 0;
     }
+
+    /**
+     * sort product by price high to low
+     * 
+     * @return array
+     */
+    public static function productSortByPriceHighToLow()
+    {
+        $query = new Query;
+        $query->select('*')
+        ->from('product')
+        ->orderBy(['price' => SORT_DESC]);
+        $rows = $query->all();
+
+        $prdouct_data = [];
+        foreach($rows as $data)
+        {
+            $prdouct_data [] = self::getProductCommonData($data);
+        }
+        return $prdouct_data;
+    }
+
+    /**
+     * sort product by price low to high
+     * 
+     * @return array
+     */
+    public static function productSortByPriceLowToHigh()
+    {
+        $query = new Query;
+        $query->select('*')
+        ->from('product')
+        ->orderBy(['price' => SORT_ASC]);
+        $rows = $query->all();
+
+        $prdouct_data = [];
+        foreach($rows as $data)
+        {
+            $prdouct_data [] = self::getProductCommonData($data);
+        }
+        return $prdouct_data;
+    }
+
+    /**
+     * return product common attribute like image path , category name etc
+     * 
+     * @param array $product_data
+     * @return array
+     */
+    private static function getProductCommonData($product_data)
+    {
+        if(!is_array($product_data))
+            return [];
+        
+        return array(
+            'id' => $product_data['id'],
+            'name' => $product_data['name'],
+            'price' => Util::getPriceWithCurrency($product_data['price']),
+            'sell_price' => Util::getPriceWithCurrency($product_data['sell_price']),
+            'long_desp' => $product_data['long_desp'],
+            'short_desp' => $product_data['short_desp'],
+            'category' => ProductCategory::getCategoryNameById($product_data['product_cat_id']),
+            'image' => self::getProductImageWithPathForFrontend($product_data['image_id']),
+        );
+    }
+
 }
