@@ -14,7 +14,7 @@ class ShopController extends Controller
         $order_by = $request->get('orderby');
         $product_data = [];
         switch ($order_by) {
-            case 'price':
+            case 'price-asc':
                 $product_data = Product::productSortByPriceLowToHigh();
                 break;
 
